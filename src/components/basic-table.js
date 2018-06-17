@@ -13,7 +13,7 @@ const dataSource = [{
     address: '10 Downing Street'
 }];
 
-const columns = [{
+const defaultColumns = [{
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
@@ -29,11 +29,18 @@ const columns = [{
 
 
 class BasicTable extends Component {
+    getTitle = () => {
+        return "HelloWorld";
+    };
+
     render () {
         return (
             <Table
                 dataSource={dataSource}
-                columns={columns}
+                columns={defaultColumns}
+                pagination={false}
+                size="middle"
+                title={this.getTitle}
             />
         );
     }
