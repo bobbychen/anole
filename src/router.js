@@ -1,8 +1,10 @@
 import React from 'react';
 import { Router } from 'dva/router';
+import { Layout, LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
-import { Layout, LocaleProvider } from 'antd';
+import BasicTable from './components/basic-table';
+
 import './index.less';
 
 function RouterConfig({ history, app }) {
@@ -19,7 +21,7 @@ function RouterConfig({ history, app }) {
             <div className="container">
               <main>
                 <div className="main-wrapper">
-                  <span>Content</span>
+                  <BasicTable/>
                 </div>
               </main>
             </div>
