@@ -1,7 +1,11 @@
 import dva from 'dva';
 import router from './router';
+import createHistory from 'history/createBrowserHistory';
 
-const app = dva();
+const app = dva({
+    history: createHistory(),
+    }
+ );
 
 app.router(router);
 
