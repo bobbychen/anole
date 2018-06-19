@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Table} from 'antd';
+import Header from './basic-edit-cell';
 
 const dataSource = [{
     key: '1',
@@ -30,7 +31,9 @@ const defaultColumns = [{
 
 class BasicTable extends Component {
     getTitle = () => {
-        return "HelloWorld";
+        return (
+            <Header/>
+        );
     };
 
     render () {
