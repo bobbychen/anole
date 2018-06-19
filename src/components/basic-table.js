@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table} from 'antd';
+import {Table, Icon } from 'antd';
 import Header from './basic-edit-cell';
 
 const dataSource = [{
@@ -26,8 +26,13 @@ const defaultColumns = [{
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
-}];
-
+}, {
+    title:  <Icon type="plus" />,
+    key: 'addNewColumn',
+    width: 50,
+    fixed: 'right'
+}
+];
 
 class BasicTable extends Component {
     getTitle = () => {
@@ -35,10 +40,10 @@ class BasicTable extends Component {
             <Header/>
         );
     };
-
     render () {
         return (
             <Table
+                bordered
                 dataSource={dataSource}
                 columns={defaultColumns}
                 pagination={false}
