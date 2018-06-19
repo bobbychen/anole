@@ -2,18 +2,20 @@ import React, {Component} from 'react';
 import {Input} from 'antd';
 
 class BasicEditCell extends Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             defaultValue: 'Title',
             editing: false,
         };
     }
+
     onClick = () => {
         this.setState({
             editing: true,
         })
     };
+
     onPressEnter = (event) => {
         this.setState({
             defaultValue:event.target.value,
