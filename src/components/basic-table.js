@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Table, Icon } from 'antd';
+import {Table} from 'antd';
 import Header from './basic-edit-cell';
+import AddNewColumn from './add-new-column';
 
 const dataSource = [{
     key: '1',
@@ -27,7 +28,7 @@ const defaultColumns = [{
     dataIndex: 'address',
     key: 'address',
 }, {
-    title:  <Icon type="plus" />,
+    title:  <AddNewColumn />,
     key: 'addNewColumn',
     width: 50,
     fixed: 'right'
