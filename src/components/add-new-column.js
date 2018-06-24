@@ -15,6 +15,7 @@ class AddNewColumn extends Component {
         defaultColumnName: 'columnName',
         selectedKey: 'text',
     };
+
     handleVisibleChange = (flag) => {
         this.setState(
             {
@@ -26,14 +27,18 @@ class AddNewColumn extends Component {
             selectedKey: key,
             dropDownVisible: false,
         });
-        console.error('this.state.selectedKey', this.state.selectedKey);
     };
     onColumnNamePressEnter = (event) => {
-        console.log('onColumnNamePressEnter', event.target.value)
         this.setState(
             {
                 dropDownVisible: false,
             });
+        this.props.addColumn({
+            name: event.target.value,
+            meta: {
+                type: this.state.selectedKey,
+            }
+        });
     };
 
     render () {
