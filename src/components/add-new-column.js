@@ -10,33 +10,46 @@ const menuKeys = {
 };
 
 class AddNewColumn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            dropDownVisible: null,
-            defaultColumnName: 'columnName',
-            selectedKey: null,
-        };
-    }
+    state = {
+        dropDownVisible: false,
+        defaultColumnName: 'columnName',
+        selectedKey: 'text',
+    };
+    handleVisibleChange = (flag) => {
+        this.setState(
+            {
+                dropDownVisible: flag
+            });
+    };
     onMenuClick = ({ key }) => {
         this.setState({
             selectedKey: key,
+            dropDownVisible: false,
         });
         console.error('this.state.selectedKey', this.state.selectedKey);
     };
+    onColumnNamePressEnter = (event) => {
+        console.log('onColumnNamePressEnter', event.target.value)
+        this.setState(
+            {
+                dropDownVisible: false,
+            });
+    };
+
     render () {
         const menu = (
             <Menu
-                multiple
+                multiple={true}
                 onClick={this.onMenuClick}
             >
                 <Menu.Item key={menuKeys.columnName} disabled>
                     <Input
                         defaultValue={this.state.defaultColumnName}
+                        onPressEnter={this.onColumnNamePressEnter}
                     />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key={menuKeys.property}>
+                <Menu.Item key={menuKeys.property} disabled>
                     PROPERTY TYPE
                 </Menu.Item>
                 <SubMenu key="subMenu" title={<span><Icon type="bars" /><span>Text</span></span>}>
@@ -51,6 +64,8 @@ class AddNewColumn extends Component {
             <Dropdown
                 overlay={menu}
                 placement='bottomCenter'
+                onVisibleChange={this.handleVisibleChange}
+                visible={this.state.dropDownVisible}
             >
                 <Icon type="plus" />
             </Dropdown>
