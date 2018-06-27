@@ -22,7 +22,7 @@ const defaultColumnsArray = [
     }
 ];
 
-const generateColumn = (meta, updateColumn, index) => {
+const generateColumn = (meta, updateColumn, index, deleteColumn) => {
     const {name, property} = meta;
     const updateName = (event) => {
         updateColumn({
@@ -30,13 +30,18 @@ const generateColumn = (meta, updateColumn, index) => {
             to: event.target.value,
             index
         });
+    }
+    ;
+    const onClick = ({key}) => {
+        return key === 'delete'? deleteColumn(index) : null;
     };
+
     return {
         title: name,
         dataIndex: name,
         key: name,
         filterDropdown: (
-            <Menu>
+            <Menu onClick={onClick}>
                 <Menu.Item key='value' disabled>
                     <Input
                         defaultValue={name}
@@ -44,7 +49,7 @@ const generateColumn = (meta, updateColumn, index) => {
                     />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item className="ant-menu-delete-item"><span>Delete<Icon type="close" /></span></Menu.Item>
+                <Menu.Item key='delete' className="ant-menu-delete-item"><span>Delete<Icon type="close" /></span></Menu.Item>
             </Menu>
         ),
         filterIcon: <Icon type="edit" />
@@ -73,9 +78,13 @@ class BasicTable extends Component {
             }, [])
         })
     };
-
-    deleteColumn = (index) => {
-
+    deleteColumn = (elementIndex) => {
+        this.setState({
+            columns: _.reduce(this.state.columns, (results, item, index)=> {
+                if (elementIndex !== index)  results.push(item) ;
+                return results;
+            }, [])
+        })
     };
     generateAddNewColumn = () => {
       return {
@@ -87,7 +96,7 @@ class BasicTable extends Component {
     };
 
     generateColumns = () => {
-        return this.state.columns.map((item, index) => generateColumn(item, this.updateColumn, index));
+        return this.state.columns.map((item, index) => generateColumn(item, this.updateColumn, index, this.deleteColumn));
 
     };
     getTitle = () => {
