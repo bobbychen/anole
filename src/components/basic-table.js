@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Table, Icon, Button} from 'antd';
+import {Table, Icon, Menu, Input} from 'antd';
 import Header from './basic-edit-cell';
 import AddNewColumn from './add-new-column';
-import TableHeader from './editable-table-header';
 import _ from 'lodash';
+
+import './basic-table.less';
 
 
 const defaultColumnsArray = [
@@ -28,29 +29,19 @@ const generateColumn = (meta) => {
         dataIndex: name,
         key: name,
         filterDropdown: (
-            <div>
-                <Button type="primary">Search</Button>
-            </div>
+            <Menu>
+                <Menu.Item key='value' disabled>
+                    <Input
+                        defaultValue={name}
+                    />
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item className="ant-menu-delete-item"><span>Delete<Icon type="close" /></span></Menu.Item>
+            </Menu>
         ),
         filterIcon: <Icon type="edit" />
     };
 };
-
-
-const defaultColumns = [{
-    title: <TableHeader header={'name'}/>,
-    dataIndex: 'name',
-    key: 'name',
-}, {
-    title: <TableHeader header={'Age'}/>,
-    dataIndex: 'age',
-    key: 'age',
-}, {
-    title: <TableHeader header={'Address'}/>,
-    dataIndex: 'address',
-    key: 'address',
-}
-];
 
 
 class BasicTable extends Component {
