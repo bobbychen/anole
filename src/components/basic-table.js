@@ -1,9 +1,40 @@
 import React, {Component} from 'react';
-import {Table} from 'antd';
+import {Table, Icon, Button} from 'antd';
 import Header from './basic-edit-cell';
 import AddNewColumn from './add-new-column';
 import TableHeader from './editable-table-header';
 import _ from 'lodash';
+
+
+const defaultColumnsArray = [
+    {
+        name: 'name',
+        property: 'text'
+    },
+    {
+         name: 'Age',
+         property: 'text'
+    },
+    {
+        name: 'Address',
+        property: 'text'
+    }
+];
+
+const generateColumn = (meta) => {
+    const {name, property} = meta;
+    return {
+        title: name,
+        dataIndex: name,
+        key: name,
+        filterDropdown: (
+            <div>
+                <Button type="primary">Search</Button>
+            </div>
+        ),
+        filterIcon: <Icon type="edit" />
+    };
+};
 
 
 const defaultColumns = [{
@@ -24,14 +55,13 @@ const defaultColumns = [{
 
 class BasicTable extends Component {
     state = {
-        columns: defaultColumns
+        columns: defaultColumnsArray
     };
     addColumn = ({name, meta}) => {
         this.setState({
             columns: _.concat(this.state.columns, {
-                title: <TableHeader header={name} />,
-                dataIndex: name,
-                key: name,
+                name: name,
+                property: 'text',
             }),
         });
 
@@ -44,6 +74,11 @@ class BasicTable extends Component {
           fixed: 'right'
       };
     };
+
+    generateColumns = () => {
+        return this.state.columns.map((item) => generateColumn(item));
+
+    };
     getTitle = () => {
         return (
             <Header/>
@@ -53,7 +88,7 @@ class BasicTable extends Component {
         return (
             <Table
                 bordered
-                columns={_.concat(this.state.columns, this.generateAddNewColumn())}
+                columns={_.concat(this.generateColumns(), this.generateAddNewColumn())}
                 pagination={false}
                 size="middle"
                 title={this.getTitle}
