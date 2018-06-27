@@ -14,6 +14,7 @@ class AddNewColumn extends Component {
         dropDownVisible: false,
         defaultColumnName: 'columnName',
         selectedKey: 'text',
+        columnName: null,
     };
 
     handleVisibleChange = (flag) => {
@@ -26,6 +27,18 @@ class AddNewColumn extends Component {
         this.setState({
             selectedKey: key,
             dropDownVisible: false,
+        });
+
+        this.props.addColumn({
+            name: this.state.columnName|| this.state.defaultColumnName,
+            meta: {
+                type: this.state.selectedKey,
+            }
+        });
+    };
+    onColumnNameInputChange = (event) => {
+        this.setState({
+            columnName: event.target.value,
         });
     };
     onColumnNamePressEnter = (event) => {
@@ -49,6 +62,7 @@ class AddNewColumn extends Component {
             >
                 <Menu.Item key={menuKeys.columnName} disabled>
                     <Input
+                        onChange={this.onColumnNameInputChange}
                         defaultValue={this.state.defaultColumnName}
                         onPressEnter={this.onColumnNamePressEnter}
                     />
