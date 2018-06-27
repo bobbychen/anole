@@ -22,8 +22,15 @@ const defaultColumnsArray = [
     }
 ];
 
-const generateColumn = (meta) => {
+const generateColumn = (meta, updateColumn, index) => {
     const {name, property} = meta;
+    const updateName = (event) => {
+        updateColumn({
+            from: name,
+            to: event.target.value,
+            index
+        });
+    };
     return {
         title: name,
         dataIndex: name,
@@ -33,6 +40,7 @@ const generateColumn = (meta) => {
                 <Menu.Item key='value' disabled>
                     <Input
                         defaultValue={name}
+                        onPressEnter={updateName}
                     />
                 </Menu.Item>
                 <Menu.Divider />
@@ -57,6 +65,18 @@ class BasicTable extends Component {
         });
 
     };
+    updateColumn = ({from, to, index: elementIndex}) => {
+        this.setState({
+            columns: _.reduce(this.state.columns, (results, item, index)=> {
+                elementIndex === index ? results.push({ ...item,name: to }) : results.push(item);
+                return results;
+            }, [])
+        })
+    };
+
+    deleteColumn = (index) => {
+
+    };
     generateAddNewColumn = () => {
       return {
           title:  <AddNewColumn addColumn={this.addColumn} />,
@@ -67,7 +87,7 @@ class BasicTable extends Component {
     };
 
     generateColumns = () => {
-        return this.state.columns.map((item) => generateColumn(item));
+        return this.state.columns.map((item, index) => generateColumn(item, this.updateColumn, index));
 
     };
     getTitle = () => {
