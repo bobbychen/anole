@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Table, Icon, Menu, Input} from 'antd';
 import Header from './basic-edit-cell';
 import AddNewColumn from './add-new-column';
+import AddNewRow from './add-new-row';
 import _ from 'lodash';
 
 import './basic-table.less';
@@ -59,7 +60,8 @@ const generateColumn = (meta, updateColumn, index, deleteColumn) => {
 
 class BasicTable extends Component {
     state = {
-        columns: defaultColumnsArray
+        columns: defaultColumnsArray,
+        dataSource: []
     };
     addColumn = ({name, meta}) => {
         this.setState({
@@ -99,6 +101,20 @@ class BasicTable extends Component {
         return this.state.columns.map((item, index) => generateColumn(item, this.updateColumn, index, this.deleteColumn));
 
     };
+
+    handleAdd = () => {
+        const { dataSource, columns  } = this.state;
+        const newData = _.reduce(columns, (result, column) => {
+            const {name, type} = column;
+            result[name] = '';
+            return result;
+        }, {});
+        newData['key'] = count(dataSource);
+
+        this.setState({
+            dataSource: [...dataSource, newData],
+        });
+    };
     getTitle = () => {
         return (
             <Header/>
@@ -106,13 +122,17 @@ class BasicTable extends Component {
     };
     render () {
         return (
-            <Table
-                bordered
-                columns={_.concat(this.generateColumns(), this.generateAddNewColumn())}
-                pagination={false}
-                size="middle"
-                title={this.getTitle}
-            />
+            <div>
+                <Table
+                    bordered
+                    columns={_.concat(this.generateColumns(), this.generateAddNewColumn())}
+                    dataSource={this.state.dataSource}
+                    pagination={false}
+                    size="middle"
+                    title={this.getTitle}
+                />
+                <AddNewRow handleAdd={this.handleAdd}/>
+            </div>
         );
     }
 }
