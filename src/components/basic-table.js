@@ -109,7 +109,7 @@ class BasicTable extends Component {
             result[name] = '';
             return result;
         }, {});
-        newData['key'] = count(dataSource);
+        newData['key'] = _.size(dataSource);
 
         this.setState({
             dataSource: [...dataSource, newData],
